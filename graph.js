@@ -91,29 +91,25 @@ class Graph {
     let valuesOnly = [];
     // LIFO -- use a stack
     let stack = [start];
+
     // have a set with seen values
     let seen = new Set(stack);
-    // seen.add(start);
+
     // keep track of current node
-    while (stack.length) {
+    while (stack.length > 0) {
+
       let curr = stack.pop();
-      console.log("curr=", curr);
-      console.log("curr.adj=", curr.adjacent);
-      //check for adjs
+      valuesOnly.push(curr.value);
+
       for (let adjNode of curr.adjacent) {
-        console.log("adjNode=", adjNode);
         if (!seen.has(adjNode)) {
-          stack.push(adjNode);
           seen.add(adjNode);
+          stack.push(adjNode);
         }
       }
     }
 
-    for(let node of seen) {
-      valuesOnly.push(node.value);
-    }
-    
-    console.log("values=", valuesOnly);
+    // // console.log("values=", valuesOnly);
     return valuesOnly;
   }
 
