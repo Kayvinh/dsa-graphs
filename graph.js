@@ -16,23 +16,66 @@ class Graph {
   }
 
   /** add Node instance and add it to nodes property on graph. */
-  addVertex(vertex) { }
+  addVertex(vertex) {
+    this.nodes.add(vertex);
+   }
 
   /** add array of new Node instances and adds to them to nodes property. */
-  addVertices(vertexArray) { }
+  addVertices(vertexArray) {
+    for(let vertex of vertexArray) {
+      this.nodes.add(vertex);
+    }
+  }
 
   /** add edge between vertices v1,v2 */
-  addEdge(v1, v2) { }
+  addEdge(v1, v2) {
+    // Undirected
+    v1.adjacent.add(v2);
+    v2.adjacent.add(v1);
+
+    //directed 1 way???
+  }
 
   /** remove edge between vertices v1,v2 */
-  removeEdge(v1, v2) { }
+  removeEdge(v1, v2) {
+    v1.adjacent.delete(v2);
+    v2.adjacent.delete(v1);
+  }
 
   /** remove vertex from graph:
    *
    * - remove it from nodes property of graph
    * - update any adjacency lists using that vertex
    */
-  removeVertex(vertex) { }
+
+      //
+    //              A
+    //            /   \
+    //          B       C
+    //            \   /
+    //              D
+    //
+
+      //
+    //              A
+    //                \
+    //                C
+    //               /
+    //              D
+    //
+
+  removeVertex(vertex) {
+    // remove node from graph
+    this.nodes.delete(vertex);
+
+    // update adjacenty list
+    for(let node of this.nodes) {
+      if(node.adjacent.has(vertex)){
+        node.adjacent.delete(vertex);
+      }
+    }
+
+  }
 
   /** traverse graph with DFS and returns array of Node values */
   depthFirstSearch(start) { }
