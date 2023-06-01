@@ -190,7 +190,6 @@ describe("DFS", function () {
     graph.addEdge(W, T);
 
     let result = graph.depthFirstSearch(T);
-    console.log("result@@", result);
 
     expect.assertions(2);
 
@@ -263,7 +262,6 @@ describe("BFS", function () {
     graph.addEdge(W, T);
 
     let results = graph.breadthFirstSearch(S);
-    console.log("results@@", results)
 
     expect(results.indexOf("P") < results.indexOf("Y")).toBe(true);
     expect(results.indexOf("P") < results.indexOf("V")).toBe(true);

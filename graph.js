@@ -87,30 +87,58 @@ class Graph {
     //
 
   /** traverse graph with DFS and returns array of Node values */
-  depthFirstSearch(start) {
-    let valuesOnly = [];
-    // LIFO -- use a stack
-    let stack = [start];
+  // DFS ITERATIVE
+  // depthFirstSearch(start) {
+  //   let valuesOnly = [];
+  //   // LIFO -- use a stack
+  //   let stack = [start];
 
-    // have a set with seen values
-    let seen = new Set(stack);
+  //   // have a set with seen values
+  //   let seen = new Set(stack);
 
-    // keep track of current node
-    while (stack.length > 0) {
+  //   // keep track of current node
+  //   while (stack.length > 0) {
 
-      let curr = stack.pop();
-      valuesOnly.push(curr.value);
+  //     let curr = stack.pop();
+  //     valuesOnly.push(curr.value);
 
-      for (let adjNode of curr.adjacent) {
-        if (!seen.has(adjNode)) {
-          stack.push(adjNode);
-          seen.add(adjNode);
-        }
+  //     for (let adjNode of curr.adjacent) {
+  //       if (!seen.has(adjNode)) {
+  //         stack.push(adjNode);
+  //         seen.add(adjNode);
+  //       }
+  //     }
+  //   }
+
+  //   // // console.log("values=", valuesOnly);
+  //   return valuesOnly;
+  // }
+
+
+      //                       Q --P -- S
+    //                      /  \ |      \
+    //                     R     X   --  U
+    //                     | \   |  \   /
+    //                     |  \  |    V
+    //                      \    Y    |
+    //                       \     \  /
+    //                         T --- W
+    //\
+  //TODO: clean this up
+                                //    ____Q___
+  // DFS RECURSIVE
+  depthFirstSearch(start, seen=new Set([start])) {
+    let vals = [];
+    for(let adjNode of start.adjacent){
+      if(!seen.has(adjNode)) {
+        seen.add(adjNode);
+        return this.depthFirstSearch(adjNode, seen);
       }
     }
-
-    // // console.log("values=", valuesOnly);
-    return valuesOnly;
+    for(let node of seen.values()){
+      vals.push(node.value);
+    }
+    return vals;
   }
    //                       Q --P -- S
     //                      /  \ |      \
@@ -143,9 +171,9 @@ class Graph {
         }
       }
     }
-
     return values;
   }
+
 
     //            R
     //         /  |  \
@@ -156,21 +184,27 @@ class Graph {
     // R -> M = 2
 
   /** find the distance of the shortest path from the start vertex to the end vertex */
-  distanceOfShortestPath(start, end, seen=new Set([start])) {
-    // if(start === end) return 0;
+  distanceOfShortestPath(start, end) {
+    let count = 0;
+    if(start === end) return 0;
 
-    // for(let adjNode of start.adjacent) {
-    //   if(adjNode === end) return seen.size()
-    //   if(!seen.has(adjNode)) {
-    //     seen.add(adjNode);
+    let queue = [start];
+    let values = [];
+    let seen = new Set(queue);
 
-    //   }
-    //   return this.distanceOfShortestPath(adjNode, end, seen);
-    // }
+    while (queue.length) {
+      let curr = queue.shift();
+      values.push(curr.value)
 
-
+      for (let adjNode of curr.adjacent) {
+        if (adjNode === end){
+          count += 1;
+          return count;
+        }
+      }
+    }
+    return values;
   }
-
 }
 
 module.exports = { Graph, Node };
