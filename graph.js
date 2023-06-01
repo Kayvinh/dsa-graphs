@@ -76,12 +76,23 @@ class Graph {
     }
   }
 
+      //                       Q --P -- S
+    //                      /  \ |      \
+    //                     R     X   --  U
+    //                     | \   |  \   /
+    //                     |  \  |    V
+    //                      \    Y    |
+    //                       \     \  /
+    //                         T --- W
+    //
+
   /** traverse graph with DFS and returns array of Node values */
   depthFirstSearch(start) {
+    let valuesOnly = [];
     // LIFO -- use a stack
     let stack = [start];
     // have a set with seen values
-    let seen = new Set();
+    let seen = new Set(stack);
     // seen.add(start);
     // keep track of current node
     while (stack.length) {
@@ -97,8 +108,13 @@ class Graph {
         }
       }
     }
-    console.log("seen=", seen);
-    return seen;
+
+    for(let node of seen) {
+      valuesOnly.push(node.value);
+    }
+    
+    console.log("values=", valuesOnly);
+    return valuesOnly;
   }
 
   /** traverse graph with BDS and returns array of Node values */

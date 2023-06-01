@@ -190,6 +190,7 @@ describe("DFS", function () {
     graph.addEdge(W, T);
 
     let result = graph.depthFirstSearch(T);
+    console.log("result@@", result);
 
     expect.assertions(2);
 
