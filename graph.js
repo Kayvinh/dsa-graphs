@@ -103,8 +103,8 @@ class Graph {
 
       for (let adjNode of curr.adjacent) {
         if (!seen.has(adjNode)) {
-          seen.add(adjNode);
           stack.push(adjNode);
+          seen.add(adjNode);
         }
       }
     }
@@ -112,14 +112,65 @@ class Graph {
     // // console.log("values=", valuesOnly);
     return valuesOnly;
   }
+   //                       Q --P -- S
+    //                      /  \ |      \
+    //                     R     X  ---  U
+    //                     | \   |  \   /
+    //                     |  \  |    V
+    //                      \    Y    |
+    //                       \     \  /
+    //                         T --- W
+    //
+// queue = [X, Q, U]
+// values = [P, S]
+// seen = [S, P, U]
 
   /** traverse graph with BDS and returns array of Node values */
   breadthFirstSearch(start) {
     //FIFO -- use a queue
+    let queue = [start];
+    let values = [];
+    let seen = new Set(queue);
+
+    while (queue.length) {
+      let curr = queue.shift();
+      values.push(curr.value)
+
+      for (let adjNode of curr.adjacent) {
+        if (!seen.has(adjNode)) {
+          queue.push(adjNode);
+          seen.add(adjNode);
+        }
+      }
+    }
+
+    return values;
   }
 
+    //            R
+    //         /  |  \
+    //        I - T - H
+    //                |
+    //                M
+    //
+    // R -> M = 2
+
   /** find the distance of the shortest path from the start vertex to the end vertex */
-  distanceOfShortestPath(start, end) { }
+  distanceOfShortestPath(start, end, seen=new Set([start])) {
+    // if(start === end) return 0;
+
+    // for(let adjNode of start.adjacent) {
+    //   if(adjNode === end) return seen.size()
+    //   if(!seen.has(adjNode)) {
+    //     seen.add(adjNode);
+
+    //   }
+    //   return this.distanceOfShortestPath(adjNode, end, seen);
+    // }
+
+
+  }
+
 }
 
 module.exports = { Graph, Node };
