@@ -18,11 +18,11 @@ class Graph {
   /** add Node instance and add it to nodes property on graph. */
   addVertex(vertex) {
     this.nodes.add(vertex);
-   }
+  }
 
   /** add array of new Node instances and adds to them to nodes property. */
   addVertices(vertexArray) {
-    for(let vertex of vertexArray) {
+    for (let vertex of vertexArray) {
       this.nodes.add(vertex);
     }
   }
@@ -48,43 +48,66 @@ class Graph {
    * - update any adjacency lists using that vertex
    */
 
-      //
-    //              A
-    //            /   \
-    //          B       C
-    //            \   /
-    //              D
-    //
+  //
+  //              A         seen(A)
+  //            /   \       stack()
+  //          B       C   check adjsList
+  //            \   /     whatever is in adjList gets pushed onto stack
+  //              D
+  //                      return seen
 
-      //
-    //              A
-    //                \
-    //                C
-    //               /
-    //              D
-    //
+  //
+  //              A
+  //                \
+  //                C
+  //               /
+  //              D
+  //
 
   removeVertex(vertex) {
     // remove node from graph
     this.nodes.delete(vertex);
 
     // update adjacenty list
-    for(let node of this.nodes) {
-      if(node.adjacent.has(vertex)){
+    for (let node of this.nodes) {
+      if (node.adjacent.has(vertex)) {
         node.adjacent.delete(vertex);
       }
     }
-
   }
 
   /** traverse graph with DFS and returns array of Node values */
-  depthFirstSearch(start) { }
+  depthFirstSearch(start) {
+    // LIFO -- use a stack
+    let stack = [start];
+    // have a set with seen values
+    let seen = new Set();
+    // seen.add(start);
+    // keep track of current node
+    while (stack.length) {
+      let curr = stack.pop();
+      console.log("curr=", curr);
+      console.log("curr.adj=", curr.adjacent);
+      //check for adjs
+      for (let adjNode of curr.adjacent) {
+        console.log("adjNode=", adjNode);
+        if (!seen.has(adjNode)) {
+          stack.push(adjNode);
+          seen.add(adjNode);
+        }
+      }
+    }
+    console.log("seen=", seen);
+    return seen;
+  }
 
   /** traverse graph with BDS and returns array of Node values */
-  breadthFirstSearch(start) { }
+  breadthFirstSearch(start) {
+    //FIFO -- use a queue
+  }
 
   /** find the distance of the shortest path from the start vertex to the end vertex */
   distanceOfShortestPath(start, end) { }
 }
 
-module.exports = { Graph, Node }
+module.exports = { Graph, Node };
