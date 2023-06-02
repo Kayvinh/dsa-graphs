@@ -76,15 +76,15 @@ class Graph {
     }
   }
 
-      //                       Q --P -- S
-    //                      /  \ |      \
-    //                     R     X   --  U
-    //                     | \   |  \   /
-    //                     |  \  |    V
-    //                      \    Y    |
-    //                       \     \  /
-    //                         T --- W
-    //
+  //                       Q --P -- S
+  //                      /  \ |      \
+  //                     R     X   --  U
+  //                     | \   |  \   /
+  //                     |  \  |    V
+  //                      \    Y    |
+  //                       \     \  /
+  //                         T --- W
+  //
 
   /** traverse graph with DFS and returns array of Node values */
   // DFS ITERATIVE
@@ -115,43 +115,43 @@ class Graph {
   // }
 
 
-      //                       Q --P -- S
-    //                      /  \ |      \
-    //                     R     X   --  U
-    //                     | \   |  \   /
-    //                     |  \  |    V
-    //                      \    Y    |
-    //                       \     \  /
-    //                         T --- W
-    //\
+  //                       Q --P -- S
+  //                      /  \ |      \
+  //                     R     X   --  U
+  //                     | \   |  \   /
+  //                     |  \  |    V
+  //                      \    Y    |
+  //                       \     \  /
+  //                         T --- W
+  //\
   //TODO: clean this up
-                                //    ____Q___
+  //    ____Q___
   // DFS RECURSIVE
-  depthFirstSearch(start, seen=new Set([start])) {
+  depthFirstSearch(start, seen = new Set([start])) {
     let vals = [];
-    for(let adjNode of start.adjacent){
-      if(!seen.has(adjNode)) {
+    for (let adjNode of start.adjacent) {
+      if (!seen.has(adjNode)) {
         seen.add(adjNode);
         return this.depthFirstSearch(adjNode, seen);
       }
     }
-    for(let node of seen.values()){
+    for (let node of seen.values()) {
       vals.push(node.value);
     }
     return vals;
   }
-   //                       Q --P -- S
-    //                      /  \ |      \
-    //                     R     X  ---  U
-    //                     | \   |  \   /
-    //                     |  \  |    V
-    //                      \    Y    |
-    //                       \     \  /
-    //                         T --- W
-    //
-// queue = [X, Q, U]
-// values = [P, S]
-// seen = [S, P, U]
+  //                       Q --P -- S
+  //                      /  \ |      \
+  //                     R     X  ---  U
+  //                     | \   |  \   /
+  //                     |  \  |    V
+  //                      \    Y    |
+  //                       \     \  /
+  //                         T --- W
+  //
+  // queue = [X, Q, U]
+  // values = [P, S]
+  // seen = [S, P, U]
 
   /** traverse graph with BDS and returns array of Node values */
   breadthFirstSearch(start) {
@@ -162,7 +162,7 @@ class Graph {
 
     while (queue.length) {
       let curr = queue.shift();
-      values.push(curr.value)
+      values.push(curr.value);
 
       for (let adjNode of curr.adjacent) {
         if (!seen.has(adjNode)) {
@@ -175,35 +175,35 @@ class Graph {
   }
 
 
-    //            R
-    //         /  |  \
-    //        I - T - H
-    //                |
-    //                M
-    //
-    // R -> M = 2
+  //            R
+  //         /  |  \
+  //        I - T - H
+  //                |
+  //                M
+  //
+  // R -> M = 2
 
   /** find the distance of the shortest path from the start vertex to the end vertex */
   distanceOfShortestPath(start, end) {
-    let count = 0;
-    if(start === end) return 0;
-
-    let queue = [start];
+    if(start == end) return 0;
+    //FIFO -- use a queue
+    //each arr has a node and a distance
+    let queue = [[start, 0]];
     let values = [];
     let seen = new Set(queue);
 
     while (queue.length) {
-      let curr = queue.shift();
-      values.push(curr.value)
+      let [curr, dist] = queue.shift();
+
+      if(curr === end) return dist;
 
       for (let adjNode of curr.adjacent) {
-        if (adjNode === end){
-          count += 1;
-          return count;
+        if (!seen.has(adjNode)) {
+          seen.add(adjNode);
+          queue.push([adjNode, dist+1]);
         }
       }
     }
-    return values;
   }
 }
 
